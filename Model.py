@@ -7,7 +7,6 @@ Created on Tue Aug 26 09:56:31 2025
 import streamlit as st
 import pandas as pd
 import numpy as np
-import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.multioutput import MultiOutputRegressor
@@ -88,7 +87,7 @@ def train_model(df):
         X_scaled, y_scaled, test_size=0.2, random_state=42
     )
 
-    model = MultiOutputRegressor(xgb.XGBRegressor(objective='reg:squarederror'))
+    model = MultiOutputRegressor(RandomForestRegressor(random_state=42))
     model.fit(X_train, y_train)
 
     return model, scaler_X, scaler_y, X_test, y_test
@@ -173,3 +172,4 @@ elif option == "✍️ Enter Manually":
         fig = px.line_polar(radar_df, r="Value", theta="Parameter", line_close=True)
         fig.update_traces(fill='toself')
         st.plotly_chart(fig, use_container_width=True)
+
